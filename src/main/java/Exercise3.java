@@ -8,7 +8,8 @@ import java.util.regex.Pattern;
 public class Exercise3 {
 
     public static String extractURL(String text) {
-        String regex = "(https?://\\S+)";  // TODO
+
+        String regex = "(http|https)://(www.)?[a-zA-Z0-9@:%._-]{2,256}\\.[a-zA-Z]{2,6}";
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(text);
@@ -23,19 +24,18 @@ public class Exercise3 {
 
 
     public static boolean validateEmail(String email) {
-        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        String regex = "^[^\\s\\.@]+@[^\\s\\.@]+\\.[^\\s\\.@]{2,3}$";
         return email.matches(regex);
     }
 
 
     public static List<String> findWordsWithRepeatLetters(String input) {
         List<String> wordsWithRepeatLetters = new ArrayList<>();
-        String[] words = input.split("\\s+");
+        Pattern pattern = Pattern.compile("\\b\\w*(\\w)\\w*\\1\\w*\\b");
+        Matcher matcher = pattern.matcher(input);
 
-        for (String word : words) {
-            if (word.matches(".*([a-zA-Z])\\1.*")) {
-                wordsWithRepeatLetters.add(word);
-            }
+        while(matcher.find()){
+            wordsWithRepeatLetters.add(matcher.group());
         }
 
         return wordsWithRepeatLetters;
